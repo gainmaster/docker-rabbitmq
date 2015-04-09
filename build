@@ -11,27 +11,10 @@ if [[ -z $(which docker) ]]; then
 fi
 
 
-declare BUILDER_IMAGE="rabbitmq-fs-builder"
-declare BUILDER_CONTAINER="rabbitmq-fs-builder-container"
 declare IMAGE_NAME="bachelorthesis/rabbitmq"
 
 
-function make_rootfs {
-    rm -f rabbitmq-fs.tar.xz
-    docker build -t $BUILDER_IMAGE ./builder
-    docker run --privileged --name $BUILDER_CONTAINER $BUILDER_IMAGE
-    docker cp $BUILDER_CONTAINER:/opt/shared/rabbitmq-fs.tar.xz ./
-    docker rm $BUILDER_CONTAINER
-    docker rmi $BUILDER_IMAGE
-}
-
-
 function build {
-    if [ ! -f rabbitmq-fs.tar.xz ]; then
-        echo "Need rabbitmq-fs.tar.xz to build docker image."
-        exit 2
-    fi
-    
     docker build -t $IMAGE_NAME .
 }
 
@@ -43,7 +26,7 @@ function test {
         echo "Cant test $IMAGE_NAME, the image does not exist."
         exit 2
     fi
-
+    
     if [[ -z $(which bats) ]]; then
         echo "Missing bats, which is required for testing."
         exit 2
@@ -82,15 +65,11 @@ function push {
 actions=("$@")
 
 if [ ${#actions[@]} -eq 0 ]; then
-    actions=(make_rootfs build test push)
+    actions=(build test push)
 fi
 
 for action in "${actions[@]}"; do 
     case "$action" in
-        make_rootfs)
-            make_rootfs
-            ;;
-         
         build)
             build
             ;;
