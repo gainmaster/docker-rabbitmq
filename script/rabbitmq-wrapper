@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -x              # Print command traces before executing command
+trap 'exit 1' ERR   # Exit script with error if command fails
+
+# Defaults
+USERNAME=bachelorthesis
+PASSWORD=bachelorthesis
+
+while getopts ":u:p:" opt; do
+  case $opt in
+    u) USERNAME=$OPTARG >&2 ;;
+    p) PASSWORD=$OPTARG >&2 ;;
+    \?) echo "Invalid option: -$OPTARG" >&2; exit 1;;
+    :) echo "Option -$OPTARG requires an argument." >&2; exit 1;;
+  esac
+done
+
+sed -i "21s|.*|    {default_user, <<\"$USERNAME\">>},|" config/rabbitmq.config
+sed -i "22s|.*|    {default_pass, <<\"$PASSWORD\">>},|" config/rabbitmq.config
+
+# Enable management
+sbin/rabbitmq-plugins enable rabbitmq_management --offline
+
+# Start server
+sbin/rabbitmq-server
