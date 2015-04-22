@@ -11,7 +11,7 @@ if [[ -z $(which docker) ]]; then
 fi
 
 
-declare IMAGE_NAME="bachelorthesis/rabbitmq"
+declare IMAGE_NAME="gainmaster/rabbitmq"
 
 
 function build {
