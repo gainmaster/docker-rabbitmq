@@ -1,5 +1,5 @@
 FROM gainmaster/archlinux:base
-MAINTAINER Tony Hesjevik <tony@hesjevik.no>
+MAINTAINER Knut Lorvik <knutlor@tihlde.org>
 
 COPY rabbitmq.pkg.tar.xz  /tmp/rabbitmq.pkg.tar.xz
 COPY rabbitmq-wrapper.sh  /usr/local/bin/rabbitmq-wrapper
