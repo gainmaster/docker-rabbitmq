@@ -1,18 +1,16 @@
-FROM gainmaster/archlinux
-MAINTAINER Knut Lorvik <knutlor@tihlde.org>
+FROM gainmaster/archlinux:base
+MAINTAINER Tony Hesjevik <tony@hesjevik.no>
 
-ENV RABBITMQ_VERSION 3.5.1
+COPY rabbitmq.pkg.tar.xz  /tmp/rabbitmq.pkg.tar.xz
+COPY rabbitmq-wrapper.sh  /usr/local/bin/rabbitmq-wrapper
+COPY rabbitmq.config      /etc/rabbitmq/rabbitmq.config
 
-RUN pacman-install erlang-nox && \
-  curl -SL https://www.rabbitmq.com/releases/rabbitmq-server/v$RABBITMQ_VERSION/rabbitmq-server-generic-unix-$RABBITMQ_VERSION.tar.gz | tar xz
+ENV RABBITMQ_USERNAME gainmaster
+ENV RABBITMQ_PASSWORD gainmaster
 
-WORKDIR rabbitmq_server-$RABBITMQ_VERSION
-COPY script/rabbitmq-wrapper /usr/sbin/rabbitmq-wrapper
-COPY config/rabbitmq.config ./etc/rabbitmq/rabbitmq.config
+RUN pacman-install-tar /tmp/rabbitmq.pkg.tar.xz
 
-# Define default command
-ENTRYPOINT ["rabbitmq-wrapper"]
-
-# Expose ports
 EXPOSE 5672
 EXPOSE 15672
+
+ENTRYPOINT ["rabbitmq-wrapper"]

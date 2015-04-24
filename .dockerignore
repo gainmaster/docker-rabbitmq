@@ -1,8 +1,7 @@
-.vagrant/
 .git/
 .gitattributes
 .gitignore
 test/
-build
+utility/
+build.sh
 README.md
-Vagrantfile
