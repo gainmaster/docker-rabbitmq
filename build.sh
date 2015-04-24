@@ -37,7 +37,7 @@ function test_docker_image
         exit 2
     fi
 
-    bats test/
+    # bats test/
 }
 
 function run_docker_image
