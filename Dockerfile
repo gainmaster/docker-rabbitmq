@@ -20,7 +20,9 @@ RUN \
   chmod 400 /var/lib/rabbitmq/.erlang.cookie
   
 
+EXPOSE 4369
 EXPOSE 5672
 EXPOSE 15672
+EXPOSE 35197
 
 ENTRYPOINT ["rabbitmq-wrapper"]
