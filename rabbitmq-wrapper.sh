@@ -7,4 +7,4 @@ sed -i "22s|.*|    {default_pass, <<\"$RABBITMQ_PASSWORD\">>},|" /etc/rabbitmq/r
 rabbitmq-plugins enable rabbitmq_management --offline
 
 # Start server
-runuser -l rabbitmq -c "rabbitmq-server"
+rabbitmq-server
