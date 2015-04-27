@@ -16,7 +16,7 @@ ADD erlang.cookie /var/lib/rabbitmq/.erlang.cookie
 RUN \
   chown root:root /root/.erlang.cookie && \
   chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie && \
-  chmod 400 /.erlang.cookie && \
+  chmod 400 /root/.erlang.cookie && \
   chmod 400 /var/lib/rabbitmq/.erlang.cookie
 
 
