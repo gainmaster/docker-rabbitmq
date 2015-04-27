@@ -10,11 +10,13 @@ ENV RABBITMQ_PASSWORD gainmaster
 
 RUN pacman-install-tar /tmp/rabbitmq.pkg.tar.xz
 
-ADD erlang.cookie /.erlang.cookie
+ADD erlang.cookie /root/.erlang.cookie
 ADD erlang.cookie /var/lib/rabbitmq/.erlang.cookie
 
 RUN \
+  chown root:root /root/.erlang.cookie && \
   chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie && \
+  chmod 400 /.erlang.cookie && \
   chmod 400 /var/lib/rabbitmq/.erlang.cookie
 
 
