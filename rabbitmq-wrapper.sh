@@ -7,4 +7,12 @@ sed -i "22s|.*|    {default_pass, <<\"$RABBITMQ_PASSWORD\">>},|" /etc/rabbitmq/r
 rabbitmq-plugins enable rabbitmq_management --offline
 
 # Start server
-rabbitmq-server
+if [ -z "$CLUSTER_WITH" ] ; then
+    rabbitmq-server
+else
+    rabbitmq-server &
+    sleep 10
+    rabbitmqctl stop_app
+    rabbitmqctl join_cluster rabbit@$CLUSTER_WITH
+    rabbitmqctl start_app
+fi
