@@ -10,9 +10,9 @@ rabbitmq-plugins enable rabbitmq_management --offline
 if [ -z "$CLUSTER_WITH" ] ; then
     rabbitmq-server
 else
-    rabbitmq-server &
-    sleep 10
-    rabbitmqctl stop_app
-    rabbitmqctl join_cluster rabbit@$CLUSTER_WITH
-    rabbitmqctl start_app
+    rabbitmq-server
+    sleep 10 &
+    rabbitmqctl stop_app &
+    rabbitmqctl join_cluster rabbit@$CLUSTER_WITH &
+    rabbitmqctl start_app &
 fi
