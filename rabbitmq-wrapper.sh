@@ -14,7 +14,8 @@ sed -i "22s|.*|    {default_pass, <<\"$RABBITMQ_PASSWORD\">>},|" /etc/rabbitmq/r
 rabbitmq-plugins enable rabbitmq_management --offline
 
 # Start server
-if [ -z "$CLUSTER_WITH" ] ; then
+ping -c 1 $CLUSTER_WITH
+if [ $? -eq 2 ]; then
     rabbitmq-server
 else
     clusterize &

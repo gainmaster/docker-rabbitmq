@@ -14,7 +14,8 @@ ADD erlang.cookie /var/lib/rabbitmq/.erlang.cookie
 
 RUN \
   chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie && \
-  chmod 400 /var/lib/rabbitmq/.erlang.cookie
+  chmod 400 /var/lib/rabbitmq/.erlang.cookie \
+  chmod u+s $(which ping)
 
 
 EXPOSE 4369
