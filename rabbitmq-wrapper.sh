@@ -3,7 +3,7 @@
 function clusterize {
     sleep 10
     rabbitmqctl stop_app
-    rabbitmqctl join_cluster rabbit@$CLUSTER_WITH
+    rabbitmqctl join_cluster rabbit@$CLUSTER_MASTER.$CLUSTER_DOMAIN
     rabbitmqctl start_app
 }
 
@@ -14,8 +14,7 @@ sed -i "22s|.*|    {default_pass, <<\"$RABBITMQ_PASSWORD\">>},|" /etc/rabbitmq/r
 rabbitmq-plugins enable rabbitmq_management --offline
 
 # Start server
-ping -c 1 $CLUSTER_WITH
-if [ $? -eq 2 ]; then
+if [ -z "$CLUSTER_MASTER" ]; then
     rabbitmq-server
 else
     clusterize &
